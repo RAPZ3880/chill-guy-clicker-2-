@@ -32,7 +32,8 @@ chilllllllll
         align-items: center;
         width: 800px;
         height: 600px;
-        background-color: rgba(238, 238, 238, 0.9); /* Light semi-transparent background */
+        background-color: rgba(238, 238, 238, 0.9);
+        /* Light semi-transparent background */
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         overflow: hidden;
@@ -181,7 +182,8 @@ chilllllllll
         transform: translateX(-50%);
         font-size: 32px;
         color: red;
-        display: none; /* Initially hidden */
+        display: none;
+        /* Initially hidden */
       }
     </style>
   </head>
@@ -223,7 +225,6 @@ chilllllllll
       const powerBoostCostDisplay = document.getElementById('powerBoostCost');
       const ascensionMultiplierDisplay = document.getElementById('ascension-multiplier');
       const adminText = document.getElementById('admin-text'); // The "ADMIN JAKE AND MILES" text element
-
       function incrementScore() {
         score += clickPower;
         updateScore();
@@ -269,16 +270,15 @@ chilllllllll
         if (code === 'admin') {
           clickPower = 10000;
           document.body.style.backgroundImage = "url('https://i.kym-cdn.com/photos/images/original/002/735/702/1e5.jpeg')";
-          document.body.style.backgroundSize = '100% 100%';  // Make the background stretch to fit the screen
-          document.body.style.backgroundPosition = 'center';  // Center the background image
-          document.body.style.backgroundAttachment = 'fixed';  // Keep the background fixed
+          document.body.style.backgroundSize = '100% 100%'; // Make the background stretch to fit the screen
+          document.body.style.backgroundPosition = 'center'; // Center the background image
+          document.body.style.backgroundAttachment = 'fixed'; // Keep the background fixed
           adminText.style.display = 'block'; // Show the "ADMIN JAKE AND MILES" text
           alert('Code accepted! 10,000 clicks per click and special background.');
         } else {
           alert('Invalid code!');
         }
       }
-
       // Event listener for keyboard input
       document.addEventListener('keydown', function(event) {
         // Trigger click on any key press
