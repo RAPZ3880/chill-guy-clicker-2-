@@ -1,9 +1,7 @@
 # chill-guy-clicker-2-
 chilllllllll
 
-
-
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -33,11 +31,11 @@ chilllllllll
         width: 800px;
         height: 600px;
         background-color: rgba(238, 238, 238, 0.9);
-        /* Light semi-transparent background */
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         overflow: hidden;
         position: relative;
+        transition: all 0.3s ease;
       }
 
       #color-picker {
@@ -67,6 +65,32 @@ chilllllllll
 
       .color-option:hover {
         transform: scale(1.05);
+      }
+
+      #device-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .device-button {
+        font-size: 16px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.2s, transform 0.1s;
+      }
+
+      .device-button:hover {
+        background-color: #45a049;
+      }
+
+      .device-button:active {
+        transform: scale(0.95);
       }
 
       #character {
@@ -183,7 +207,6 @@ chilllllllll
         font-size: 32px;
         color: red;
         display: none;
-        /* Initially hidden */
       }
     </style>
   </head>
@@ -196,6 +219,10 @@ chilllllllll
         <div class="color-option" style="background-color: #d1e8ff;" onclick="setBackgroundColor('#d1e8ff')">Blue</div>
         <div class="color-option" style="background-color: #fff2cc;" onclick="setBackgroundColor('#fff2cc')">Yellow</div>
         <div class="color-option" style="background-color: #800080;" onclick="setBackgroundColor('#800080')">Purple</div>
+        <div id="device-buttons">
+          <button class="device-button" onclick="setDevice('laptop')">Laptop</button>
+          <button class="device-button" onclick="setDevice('pc')">PC</button>
+        </div>
       </div>
       <div id="character" onclick="incrementScore()">
         <img src="https://i.kym-cdn.com/photos/images/newsfeed/002/901/902/95c.png" alt="Character">
@@ -220,11 +247,15 @@ chilllllllll
       let autoClickerCost = 50;
       let powerBoostCost = 100;
       let multiplier = 1.0;
+      let rapidClickInterval = null;
+
       const scoreDisplay = document.getElementById('score');
       const autoClickerCostDisplay = document.getElementById('autoClickerCost');
       const powerBoostCostDisplay = document.getElementById('powerBoostCost');
       const ascensionMultiplierDisplay = document.getElementById('ascension-multiplier');
-      const adminText = document.getElementById('admin-text'); // The "ADMIN JAKE AND MILES" text element
+      const adminText = document.getElementById('admin-text');
+      const gameContainer = document.getElementById('game-container');
+
       function incrementScore() {
         score += clickPower;
         updateScore();
@@ -270,20 +301,45 @@ chilllllllll
         if (code === 'admin') {
           clickPower = 10000;
           document.body.style.backgroundImage = "url('https://i.kym-cdn.com/photos/images/original/002/735/702/1e5.jpeg')";
-          document.body.style.backgroundSize = '100% 100%'; // Make the background stretch to fit the screen
-          document.body.style.backgroundPosition = 'center'; // Center the background image
-          document.body.style.backgroundAttachment = 'fixed'; // Keep the background fixed
-          adminText.style.display = 'block'; // Show the "ADMIN JAKE AND MILES" text
+          document.body.style.backgroundSize = '100% 100%';
+          document.body.style.backgroundPosition = 'center';
+          document.body.style.backgroundAttachment = 'fixed';
+          adminText.style.display = 'block';
           alert('Code accepted! 10,000 clicks per click and special background.');
         } else {
           alert('Invalid code!');
         }
       }
-      // Event listener for keyboard input
-      document.addEventListener('keydown', function(event) {
-        // Trigger click on any key press
-        incrementScore();
+
+      function setDevice(device) {
+        if (device === 'laptop') {
+          gameContainer.style.width = '600px';
+          gameContainer.style.height = '450px';
+        } else if (device === 'pc') {
+          gameContainer.style.width = '800px';
+          gameContainer.style.height = '600px';
+        }
+      }
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Shift' && !rapidClickInterval) {
+          rapidClickInterval = setInterval(incrementScore, 0.1);
+        }
+      });
+
+      document.addEventListener('keyup', function (event) {
+        if (event.key === 'Shift' && rapidClickInterval) {
+          clearInterval(rapidClickInterval);
+          rapidClickInterval = null;
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Shift') {
+          incrementScore();
+        }
       });
     </script>
   </body>
 </html>
+
